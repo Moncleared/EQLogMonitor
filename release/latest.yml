@@ -1,0 +1,8 @@
+version: 1.0.0
+files:
+  - url: opendkp-log-monitor-Setup-1.0.0.exe
+    sha512: EE5jlCkpkMaRV93cW0TQzvZhntdCex+pDJItvd1jTqa6jcm/RRS71ixFSlOyp1kfCAzHdF3SdWuC4HUdsDEJlA==
+    size: 46263880
+path: opendkp-log-monitor-Setup-1.0.0.exe
+sha512: EE5jlCkpkMaRV93cW0TQzvZhntdCex+pDJItvd1jTqa6jcm/RRS71ixFSlOyp1kfCAzHdF3SdWuC4HUdsDEJlA==
+releaseDate: '2020-04-22T21:11:38.290Z'
