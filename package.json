@@ -1,6 +1,6 @@
 {
   "name": "opendkp-log-monitor",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Angular 9 with Electron (Typescript + SASS + Hot Reload)",
   "homepage": "https://github.com/moncleared/opendkp-log-monitor",
   "author": {
@@ -32,6 +32,7 @@
     "electron:local": "npm run build:prod && electron .",
     "electron:linux": "npm run build:prod && electron-builder build --linux",
     "electron:windows": "npm run build:prod && electron-builder build --windows",
+    "electron:windows:publish": "npm run build:prod && electron-builder build --windows --publish always",
     "electron:mac": "npm run build:prod && electron-builder build --mac",
     "test": "ng test",
     "e2e": "npm run build:prod && cross-env TS_NODE_PROJECT='e2e/tsconfig.e2e.json' mocha --timeout 300000 --require ts-node/register e2e/**/*.e2e.ts",
