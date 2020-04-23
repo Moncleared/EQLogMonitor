@@ -1,8 +1,8 @@
 {
-  "productName": "opendkp-log-monitor",
-  "directories": {
-    "output": "release/"
-  },
+    "productName": "opendkp-log-monitor",
+    "directories": {
+        "output": "release/"
+    },
     "files": [
         "**/*",
         "!**/*.ts",
@@ -19,23 +19,29 @@
         "!tsconfig.json",
         "!tslint.json"
     ],
-  "win": {
-    "icon": "dist/assets/icons",
-    "target": [
-      "portable",
-      "nsis"
-    ]
-  },
-  "mac": {
-    "icon": "dist/assets/icons",
-    "target": [
-      "dmg"
-    ]
-  },
-  "linux": {
-    "icon": "dist/assets/icons",
-    "target": [
-      "AppImage"
-    ]
-  }
+    "publish": {
+      "provider": "s3",
+      "bucket": "opendkp-publisher",
+      "region": "us-east-2",
+      "path": "updates"
+    },    
+    "win": {
+        "icon": "dist/assets/icons",
+        "target": [
+            "portable",
+            "nsis"
+        ]
+    },
+    "mac": {
+        "icon": "dist/assets/icons",
+        "target": [
+            "dmg"
+        ]
+    },
+    "linux": {
+        "icon": "dist/assets/icons",
+        "target": [
+            "AppImage"
+        ]
+    }
 }

@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as url from 'url';
 const Tail = require('tail').Tail;
 const Store = require('electron-store');
-
+const { autoUpdater } = require('electron-updater');
 
 let win: BrowserWindow = null;
 const args = process.argv.slice(1),
@@ -148,6 +148,33 @@ function sendClientMessage(data) {
     });
 }
 
+autoUpdater.on('checking-for-update', () => {
+    win.webContents.send('log_output','Checking for update...');
+});
+
+autoUpdater.on('update-available', (info) => {
+    win.webContents.send('log_output','Update available.');
+});
+
+autoUpdater.on('update-not-available', (info) => {
+    win.webContents.send('log_output','Update NOT available.');
+});
+
+autoUpdater.on('error', (err) => {
+    win.webContents.send('log_output','Error in auto-updater.');
+});
+
+autoUpdater.on('download-progress', (progressObj) => {
+    let log_message = "Download speed: " + progressObj.bytesPerSecond;
+    log_message = log_message + ' - Downloaded ' + progressObj.percent + '%';
+    log_message = log_message + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+    win.webContents.send('log_output',log_message);
+});
+
+autoUpdater.on('update-downloaded', (info) => {
+    win.webContents.send('log_output','Update downloaded');
+});
+
 try {
 
     app.allowRendererProcessReuse = true;
@@ -156,7 +183,12 @@ try {
     // initialization and is ready to create browser windows.
     // Some APIs can only be used after this event occurs.
     // Added 400 ms to fix the black background issue while using transparent window. More detais at https://github.com/electron/electron/issues/15947
-    app.on('ready', () => setTimeout(createWindow, 400));
+    app.on('ready', () => {
+        // this will check if there is a newer version of the app available and 
+        // display the user a notification that the user has to restart the app in order to get the newer version
+        setTimeout( () => {autoUpdater.checkForUpdatesAndNotify(); win.webContents.send('log_output','Triggered auto update!')}, 10000);
+        setTimeout(createWindow, 400);
+    });
 
     // Quit when all windows are closed.
     app.on('window-all-closed', () => {

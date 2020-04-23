@@ -11,12 +11,15 @@ export class HomeComponent implements OnInit {
     public logOutput: string = "";
     public path: string = "";
     public channel: string = "";
+    public version: string = "Version: ";
 
     constructor(private router: Router,
         private electronService: ElectronService,
         private zone: NgZone) {}
 
     ngOnInit(): void {
+        this.version += require('electron').remote.app.getVersion();
+
         this.electronService.ipcRenderer.addListener('new_items', (event, item) => {
             this.zone.run(() => {
                 item.forEach(x => {
