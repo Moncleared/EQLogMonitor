@@ -84,7 +84,7 @@ function createWindow(): BrowserWindow {
     ipcMain.addListener('start_monitoring', (event, channel) => {
         store.set('channel', channel);
         fChannel = channel;
-        startMonitoring()
+        startMonitoring();
     });
 
     return win;
@@ -109,6 +109,10 @@ function initWebSocketServer() {
 
 function startMonitoring() {
     try {
+        if ( fTail && fTail.filename==fPath) {
+            return;
+        }
+        
         fTail = new Tail(fPath, options);
         win.webContents.send('log_output', `Tailing log file: ${fPath}`);
 
@@ -126,6 +130,7 @@ function startMonitoring() {
                         }
                     });
                     if (vSearchItems.length > 0) {
+                        console.log('sending item');
                         win.webContents.send('new_items', vSearchItems);
                         sendClientMessage(vSearchItems);
                     }
