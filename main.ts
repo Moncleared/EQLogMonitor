@@ -15,6 +15,9 @@ let fPath = '';
 let fChannel = '';
 let options = { separator: /[\r]{0,1}\n/, fromBeginning: false, fsWatchOptions: {}, follow: true, logger: console }
 let fTail;
+let last = +new Date();
+let rateLimitHit = 0;
+let currentHits = 0;
 
 function createWindow(): BrowserWindow {
     const store = new Store();
@@ -129,8 +132,7 @@ function startMonitoring() {
                             vSearchItems.push(x);
                         }
                     });
-                    if (vSearchItems.length > 0) {
-                        console.log('sending item');
+                    if (vSearchItems.length > 0 && vSearchItems.length < 10) {
                         win.webContents.send('new_items', vSearchItems);
                         sendClientMessage(vSearchItems);
                     }
@@ -148,9 +150,31 @@ function startMonitoring() {
 }
 
 function sendClientMessage(data) {
-    clients.forEach(element => {
-        element.send(JSON.stringify(data));
-    });
+    const now = +new Date();
+    if ( now - last > 5000 ) {
+        currentHits = 0;
+    } else {
+        currentHits++;
+    }
+
+    if (currentHits <= 2) { // 3 hits per 5 seconds
+        console.log(currentHits);
+        last = now;
+        clients.forEach(element => {
+            element.send(JSON.stringify(data));
+        });
+    } else {
+        rateLimitHit++;
+        win.webContents.send('log_output', `You are sending too many requests to the server at this time.`);
+    }
+    if ( rateLimitHit > 10 ) {
+        win.webContents.send('log_output', `You hit the rate limit too many times. Please make sure your Chat Channel is accurate.`);
+        win.webContents.send('log_output', `This application has stopped monitoring your logs and closed the websocket connection to OpenDKP.`);
+        win.webContents.send('log_output', `Restart Log Monitor Tool and resolve Chat Channel issues. /join aspecificchannel in game, and then set Chat Channel equal to aspecifichannel that you joined in game.`);
+        win.webContents.send('log_output', `Select a unique chat channel name, not something like 'guild' or 'raid' as it will pick up too many lines from the log.`);
+        clients = [];
+        wss.close();
+    }
 }
 
 autoUpdater.on('checking-for-update', () => {

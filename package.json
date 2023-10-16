@@ -1,6 +1,6 @@
 {
   "name": "opendkp-log-monitor",
-  "version": "1.3.0",
+  "version": "1.5.0",
   "description": "Angular 9 with Electron (Typescript + SASS + Hot Reload)",
   "homepage": "https://github.com/moncleared/opendkp-log-monitor",
   "author": {

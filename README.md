@@ -1,3 +1,11 @@
+BRANTLEY:
+Steps to Deploy to Production:
+1. Update version in package.json
+2. npm run electron:windows:publish
+3. Verify publishing worked
+4. Verify app auto updates
+
+
 [![Angular Logo](https://www.vectorlogo.zone/logos/angular/angular-icon.svg)](https://angular.io/) [![Electron Logo](https://www.vectorlogo.zone/logos/electronjs/electronjs-icon.svg)](https://electronjs.org/)
 
 ![Maintained][maintained-badge]
