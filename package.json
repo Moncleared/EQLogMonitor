@@ -97,6 +97,7 @@
     "bootstrap-css-only": "4.4.1",
     "electron-store": "5.1.1",
     "electron-updater": "4.2.5",
+    "lodash": "4.17.21",
     "tail": "2.0.3",
     "ws": "7.2.3"
   }

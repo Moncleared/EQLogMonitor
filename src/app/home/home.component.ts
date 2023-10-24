@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
         this.electronService.ipcRenderer.addListener('new_items', (event, item) => {
             this.zone.run(() => {
                 item.forEach(x => {
-                    this.logOutput += `Item Detected: ${x}\n`;
+                    this.logOutput += `Item Detected: ${x.Name}\n`;
                 });
             })
         });
