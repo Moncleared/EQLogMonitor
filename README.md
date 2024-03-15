@@ -1,5 +1,6 @@
 BRANTLEY:
 Steps to Deploy to Production:
+0. Nvm use 16.20.2
 1. Update version in package.json
 2. npm run electron:windows:publish
 3. Verify publishing worked
